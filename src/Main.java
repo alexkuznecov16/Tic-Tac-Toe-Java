@@ -29,11 +29,11 @@ public class Main {
 
     // print current field
     public static void printField(String[][] field) {
-        for (int i = 0; i < field.length; i++) {
-            for (int j = 0; j < field[i].length; j++) {
-                if (field[i][j].equals(""))
+        for (String[] strings : field) {
+            for (String string : strings) {
+                if (string.equals(""))
                     System.out.print("_");
-                System.out.print(field[i][j]);
+                System.out.print(string);
             }
             System.out.println("");
         }
