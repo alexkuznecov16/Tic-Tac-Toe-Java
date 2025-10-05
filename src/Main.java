@@ -11,39 +11,45 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
+            // user step
             field = userStep(field, scanner);
-            for (int i = 0; i < field.length; i++) {
-                for (int j = 0; j < field[i].length; j++) {
-                    if (field[i][j].equals(""))
-                        System.out.print("_");
-                    System.out.print(field[i][j]);
-                }
-                System.out.println("");
-            }
+            System.out.println("Field after user step: ");
+            printField(field);
             if (test(field)) break;
+
+            // computer step
             field = computerStep(field);
-            for (int i = 0; i < field.length; i++) {
-                for (int j = 0; j < field[i].length; j++) {
-                    if (field[i][j].equals(""))
-                        System.out.print("_");
-                    System.out.print(field[i][j]);
-                }
-                System.out.println("");
-            }
+            System.out.println("\nField after computer step: ");
+            printField(field);
             if (test(field)) break;
         }
 
         scanner.close();
     }
 
+    // print current field
+    public static void printField(String[][] field) {
+        for (int i = 0; i < field.length; i++) {
+            for (int j = 0; j < field[i].length; j++) {
+                if (field[i][j].equals(""))
+                    System.out.print("_");
+                System.out.print(field[i][j]);
+            }
+            System.out.println("");
+        }
+    }
+
+    // make a user step (by choice)
     public static String[][] userStep(String[][] field, Scanner scanner) {
+        // loop works while user input is incorrect
         while (true) {
             try {
                 System.out.print("Enter number of your position [1-9]: ");
-                int position = scanner.nextInt();
+                int position = scanner.nextInt(); // get integer
 
-                boolean validMove = false;
+                boolean validMove = false; // initial state
 
+                // test specific position is empty and make user step
                 switch (position) {
                     case 1: if (field[0][0].equals("")) { field[0][0] = "X"; validMove = true; } break;
                     case 2: if (field[0][1].equals("")) { field[0][1] = "X"; validMove = true; } break;
@@ -56,94 +62,104 @@ public class Main {
                     case 9: if (field[2][2].equals("")) { field[2][2] = "X"; validMove = true; } break;
                 }
 
-                if (validMove) break;
-                else System.out.println("This position is already taken. Try again.");
+                if (validMove) break; // if user input is correct
+                else System.out.println("This position is already taken. Try again."); // if user input is incorrect
 
             } catch (InputMismatchException e) {
+                // if user input is incorrect
                 System.out.println("Wrong input! Enter a number from 1 to 9.");
-                scanner.next();
+                scanner.next(); // clear previous input
             }
         }
 
         return field;
     }
 
-
+    // make a computer (random) step
     public static String[][] computerStep(String[][] field) {
+        // loop works while computer step is incorrect
         while (true) {
-            int position = (int) ((Math.random() * 9) + 1);
+            int position = (int) ((Math.random() * 9) + 1); // random position
 
+            boolean validMove = false; // initial state
+
+            // test specific position is empty and make computer step
             switch (position) {
-                case 1: if (field[0][0].equals("")) { field[0][0] = "O"; return field; } break;
-                case 2: if (field[0][1].equals("")) { field[0][1] = "O"; return field; } break;
-                case 3: if (field[0][2].equals("")) { field[0][2] = "O"; return field; } break;
-                case 4: if (field[1][0].equals("")) { field[1][0] = "O"; return field; } break;
-                case 5: if (field[1][1].equals("")) { field[1][1] = "O"; return field; } break;
-                case 6: if (field[1][2].equals("")) { field[1][2] = "O"; return field; } break;
-                case 7: if (field[2][0].equals("")) { field[2][0] = "O"; return field; } break;
-                case 8: if (field[2][1].equals("")) { field[2][1] = "O"; return field; } break;
-                case 9: if (field[2][2].equals("")) { field[2][2] = "O"; return field; } break;
+                case 1: if (field[0][0].equals("")) { field[0][0] = "O"; validMove = true; } break;
+                case 2: if (field[0][1].equals("")) { field[0][1] = "O"; validMove = true; } break;
+                case 3: if (field[0][2].equals("")) { field[0][2] = "O"; validMove = true; } break;
+                case 4: if (field[1][0].equals("")) { field[1][0] = "O"; validMove = true; } break;
+                case 5: if (field[1][1].equals("")) { field[1][1] = "O"; validMove = true; } break;
+                case 6: if (field[1][2].equals("")) { field[1][2] = "O"; validMove = true; } break;
+                case 7: if (field[2][0].equals("")) { field[2][0] = "O"; validMove = true; } break;
+                case 8: if (field[2][1].equals("")) { field[2][1] = "O"; validMove = true; } break;
+                case 9: if (field[2][2].equals("")) { field[2][2] = "O"; validMove = true; } break;
             }
+
+            if (validMove) break; // if computer input is correct
         }
+        return field;
     }
 
+    // test for win conditions
     public static boolean test(String[][] field) {
+        boolean result = false; // initial state (win condition is not exist)
+
         // X win conditions
         if (field[0][0].equals("X") && field[0][1].equals("X") && field[0][2].equals("X")) {
             System.out.println("X wins (row 1)");
-            return true;
+            result = true;
         } else if (field[1][0].equals("X") && field[1][1].equals("X") && field[1][2].equals("X")) {
             System.out.println("X wins (row 2)");
-            return true;
+            result = true;
         } else if (field[2][0].equals("X") && field[2][1].equals("X") && field[2][2].equals("X")) {
             System.out.println("X wins (row 3)");
-            return true;
+            result = true;
         } else if (field[0][0].equals("X") && field[1][0].equals("X") && field[2][0].equals("X")) {
             System.out.println("X wins (column 1)");
-            return true;
+            result = true;
         } else if (field[0][1].equals("X") && field[1][1].equals("X") && field[2][1].equals("X")) {
             System.out.println("X wins (column 2)");
-            return true;
+            result = true;
         } else if (field[0][2].equals("X") && field[1][2].equals("X") && field[2][2].equals("X")) {
             System.out.println("X wins (column 3)");
-            return true;
+            result = true;
         } else if (field[0][0].equals("X") && field[1][1].equals("X") && field[2][2].equals("X")) {
             System.out.println("X wins (diagonal left-to-right)");
-            return true;
+            result = true;
         } else if (field[0][2].equals("X") && field[1][1].equals("X") && field[2][0].equals("X")) {
             System.out.println("X wins (diagonal right-to-left)");
-            return true;
+            result = true;
         }
 
         // O win conditions
         else if (field[0][0].equals("O") && field[0][1].equals("O") && field[0][2].equals("O")) {
             System.out.println("O wins (row 1)");
-            return true;
+            result = true;
         } else if (field[1][0].equals("O") && field[1][1].equals("O") && field[1][2].equals("O")) {
             System.out.println("O wins (row 2)");
-            return true;
+            result = true;
         } else if (field[2][0].equals("O") && field[2][1].equals("O") && field[2][2].equals("O")) {
             System.out.println("O wins (row 3)");
-            return true;
+            result = true;
         } else if (field[0][0].equals("O") && field[1][0].equals("O") && field[2][0].equals("O")) {
             System.out.println("O wins (column 1)");
-            return true;
+            result = true;
         } else if (field[0][1].equals("O") && field[1][1].equals("O") && field[2][1].equals("O")) {
             System.out.println("O wins (column 2)");
-            return true;
+            result = true;
         } else if (field[0][2].equals("O") && field[1][2].equals("O") && field[2][2].equals("O")) {
             System.out.println("O wins (column 3)");
-            return true;
+            result = true;
         } else if (field[0][0].equals("O") && field[1][1].equals("O") && field[2][2].equals("O")) {
             System.out.println("O wins (diagonal left-to-right)");
-            return true;
+            result = true;
         } else if (field[0][2].equals("O") && field[1][1].equals("O") && field[2][0].equals("O")) {
             System.out.println("O wins (diagonal right-to-left)");
-            return true;
+            result = true;
         }
 
         // no winner
-        System.out.println("No winner yet!");
-        return false;
+        return result;
     }
 }
