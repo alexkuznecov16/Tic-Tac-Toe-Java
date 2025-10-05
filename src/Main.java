@@ -7,7 +7,7 @@ public class Main {
                 {"", "", ""},
                 {"", "", ""},
                 {"", "", ""},
-        };
+        }; // initial field
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
